@@ -182,8 +182,7 @@ abstract class FilePartTest {
 @RestApi(baseUrl: "https://httpbin.org/")
 abstract class FilePartWithCustomNameTest {
   @POST("/profile")
-  Future<String> setProfile(
-      @Part(name: 'image', fileName: 'my_profile_image.jpg') File image);
+  Future<String> setProfile(@Part(name: 'image', fileName: 'my_profile_image.jpg') File image);
 }
 
 @ShouldGenerate(
@@ -258,8 +257,7 @@ mixin AbstractUserMixin {
 abstract class AbstractUser with AbstractUserMixin {
   factory AbstractUser() = User;
 
-  factory AbstractUser.fromJson(Map<String, dynamic> json) =>
-      User.fromJson(json);
+  factory AbstractUser.fromJson(Map<String, dynamic> json) => User.fromJson(json);
 }
 
 @ShouldGenerate(
@@ -312,8 +310,7 @@ abstract class TestAbstractObjectBody {
 @RestApi(baseUrl: "https://httpbin.org/")
 abstract class TestObjectQueries {
   @POST("/users")
-  Future<String> createUser(
-      @Query('u') User u, @Queries() User user1, @Queries() User user2);
+  Future<String> createUser(@Query('u') User u, @Queries() User user1, @Queries() User user2);
 }
 
 class CustomObject {
@@ -426,8 +423,7 @@ abstract class TestBasicListDouble {
 @RestApi(baseUrl: "https://httpbin.org/")
 abstract class TestCancelToken {
   @POST("/users")
-  Future<String> createUser(
-      @Body() User user, @CancelRequest() CancelToken cancelToken);
+  Future<String> createUser(@Body() User user, @CancelRequest() CancelToken cancelToken);
 }
 
 @ShouldGenerate(
@@ -437,8 +433,7 @@ abstract class TestCancelToken {
 @RestApi(baseUrl: "https://httpbin.org/")
 abstract class TestSendProgress {
   @POST("/users")
-  Future<String> createUser(
-      @Body() User user, @SendProgress() ProgressCallback onSendProgress);
+  Future<String> createUser(@Body() User user, @SendProgress() ProgressCallback onSendProgress);
 }
 
 @ShouldGenerate(
@@ -448,8 +443,7 @@ abstract class TestSendProgress {
 @RestApi(baseUrl: "https://httpbin.org/")
 abstract class TestReceiveProgress {
   @POST("/users")
-  Future<String> createUser(
-      @Body() User user, @ReceiveProgress() ProgressCallback onReceiveProgress);
+  Future<String> createUser(@Body() User user, @ReceiveProgress() ProgressCallback onReceiveProgress);
 }
 
 @ShouldGenerate(r'''
@@ -805,4 +799,26 @@ abstract class NonJsonSerializableBodyShouldNotBeCleanTest {
 abstract class ListBodyShouldNotBeCleanTest {
   @PUT("/")
   Future<void> update(@Body() List<User> users);
+}
+
+@ShouldGenerate(
+  r'''
+    final value = ApiResponse<User>();
+    value.code = _result.data['code'];
+    value.msg = _result.data['msg'];
+  ''',
+  contains: true,
+)
+@RestApi()
+abstract class ApiResponseTest {
+  @GET("/")
+  Future<ApiResponse<User>> get();
+}
+
+class ApiResponse<T> {
+  int code;
+  String msg;
+  T data;
+
+  ApiResponse({this.code, this.msg, this.data});
 }
