@@ -571,7 +571,7 @@ class RetrofitGenerator extends GeneratorForAnnotation<retrofit.RestApi> {
                   final value = ApiResponse();
                   value.code = $_resultVar.data['code'];
                   value.msg = $_resultVar.data['msg'];
-                  value.data = $_resultVar.data;
+                  value.data = $_resultVar.data['data'];
                 '''));
                 } else if (listReg.hasMatch(displayStringReturnType)) {
                   final dataClzName = listReg.firstMatch(displayStringReturnType).group(1);
