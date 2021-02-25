@@ -113,64 +113,109 @@ class _RestClient implements RestClient {
 
   @override
   Future<ApiResponse<Task>> getResponse() async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    final _result = await _dio.request<Map<String, dynamic>>('/apiResponse',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'GET',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    final value = ApiResponse<Task>();
-    value.code = _result.data['code'];
-    value.msg = _result.data['msg'];
-    value.data = Task.fromJson(_result.data['data']);
+    try {
+      const _extra = <String, dynamic>{};
+      final queryParameters = <String, dynamic>{};
+      final _data = <String, dynamic>{};
+      final _result = await _dio.request<Map<String, dynamic>>('/apiResponse',
+          queryParameters: queryParameters,
+          options: RequestOptions(
+              method: 'GET',
+              headers: <String, dynamic>{},
+              extra: _extra,
+              baseUrl: baseUrl),
+          data: _data);
+      final value = ApiResponse<Task>();
+      value.code = _result.data['code'];
+      value.msg = _result.data['msg'];
+      value.data = _result.data['data'] == null
+          ? null
+          : Task.fromJson(_result.data['data']);
 
-    return value;
+      return value;
+    } on DioError catch (e) {
+      if (e.type == DioErrorType.CONNECT_TIMEOUT ||
+          e.type == DioErrorType.RECEIVE_TIMEOUT ||
+          e.type == DioErrorType.SEND_TIMEOUT) {
+        throw '网络超时，请检查网络';
+      }
+
+      if (e.type == DioErrorType.DEFAULT) {
+        throw '网络异常，请检查网络';
+      }
+
+      throw '未知异常';
+    }
   }
 
   @override
   Future<ApiResponse<List<Task>>> getResponseList() async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    final _result = await _dio.request<Map<String, dynamic>>('/apiResponse',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'GET',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    final value = ApiResponse<List<Task>>();
-    value.code = _result.data['code'];
-    value.msg = _result.data['msg'];
-    value.data = _result.data.map((e) => Task.fromJson(e)).toList();
+    try {
+      const _extra = <String, dynamic>{};
+      final queryParameters = <String, dynamic>{};
+      final _data = <String, dynamic>{};
+      final _result = await _dio.request<Map<String, dynamic>>('/apiResponse',
+          queryParameters: queryParameters,
+          options: RequestOptions(
+              method: 'GET',
+              headers: <String, dynamic>{},
+              extra: _extra,
+              baseUrl: baseUrl),
+          data: _data);
+      final value = ApiResponse<List<Task>>();
+      value.code = _result.data['code'];
+      value.msg = _result.data['msg'];
+      value.data =
+          _result.data['data'].map<Task>((e) => Task.fromJson(e)).toList();
 
-    return value;
+      return value;
+    } on DioError catch (e) {
+      if (e.type == DioErrorType.CONNECT_TIMEOUT ||
+          e.type == DioErrorType.RECEIVE_TIMEOUT ||
+          e.type == DioErrorType.SEND_TIMEOUT) {
+        throw '网络超时，请检查网络';
+      }
+
+      if (e.type == DioErrorType.DEFAULT) {
+        throw '网络异常，请检查网络';
+      }
+
+      throw '未知异常';
+    }
   }
 
   @override
   Future<ApiResponse<dynamic>> getResponseList() async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _data = <String, dynamic>{};
-    final _result = await _dio.request<Map<String, dynamic>>('/apiResponse',
-        queryParameters: queryParameters,
-        options: RequestOptions(
-            method: 'GET',
-            headers: <String, dynamic>{},
-            extra: _extra,
-            baseUrl: baseUrl),
-        data: _data);
-    final value = ApiResponse();
-    value.code = _result.data['code'];
-    value.msg = _result.data['msg'];
-    value.data = _result.data;
+    try {
+      const _extra = <String, dynamic>{};
+      final queryParameters = <String, dynamic>{};
+      final _data = <String, dynamic>{};
+      final _result = await _dio.request<Map<String, dynamic>>('/apiResponse',
+          queryParameters: queryParameters,
+          options: RequestOptions(
+              method: 'GET',
+              headers: <String, dynamic>{},
+              extra: _extra,
+              baseUrl: baseUrl),
+          data: _data);
+      final value = ApiResponse();
+      value.code = _result.data['code'];
+      value.msg = _result.data['msg'];
+      value.data = _result.data['data'];
 
-    return value;
+      return value;
+    } on DioError catch (e) {
+      if (e.type == DioErrorType.CONNECT_TIMEOUT ||
+          e.type == DioErrorType.RECEIVE_TIMEOUT ||
+          e.type == DioErrorType.SEND_TIMEOUT) {
+        throw '网络超时，请检查网络';
+      }
+
+      if (e.type == DioErrorType.DEFAULT) {
+        throw '网络异常，请检查网络';
+      }
+
+      throw '未知异常';
+    }
   }
 }
